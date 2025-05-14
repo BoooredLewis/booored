@@ -13,7 +13,7 @@ import SidebarContent from './components/SidebarContent'
 // --- CONSTANTS --- (These could be moved to a separate constants.js file)
 export const TAB_IDS = { B1: 'b1', B2: 'b2', B3: 'b3', B4: 'b4' };
 export const SUB_TAB_IDS_B4 = { C1: 'c1', C2: 'c2', C3: 'c3', C4: 'c4', C5: 'c5', C6: 'c6' };
-export const POST_CATEGORIES = { THOUGHTS: 'thoughts', PICS: 'pics', MOMENTS: 'moments' };
+export const POST_CATEGORIES = { THOUGHTS: 'thoughts', PICS: 'pics', MOMENTS: 'moments', GENERAL: 'general'};
 
 export const TAB_CONFIG = [
   { id: TAB_IDS.B1, label: 'B1', title: 'Bored Thoughts', category: POST_CATEGORIES.THOUGHTS },
@@ -30,16 +30,219 @@ export const POSTS_PER_PAGE = 3;
 
 // Mock data (Could be in src/data/mockPosts.js)
 const MOCK_INITIAL_POSTS = [
-  { id: 1, title: "The paradox of modern communication", content: "We're more connected than ever yet lonelier than before...", category: POST_CATEGORIES.THOUGHTS, upvotes: 245, downvotes: 15, comments: [{ id: 1, author: "user123", text: "Great insight!", upvotes: 12, downvotes: 3 }], user: "philosophy_guy", timeAgo: "2 hours ago" },
-  { id: 2, title: "This is a funny image post", imageUrl: "https://picsum.photos/id/1/800/600", category: POST_CATEGORIES.PICS, upvotes: 150, downvotes: 8, comments: [{ id: 3, author: "funnyguy", text: "LOL!", upvotes: 24, downvotes: 2 }], user: "user123", timeAgo: "3 hours ago" },
-  { id: 3, title: "Deep Dive into Quantum Entanglement", content: "Exploring the spooky action at a distance...", category: POST_CATEGORIES.THOUGHTS, upvotes: 180, downvotes: 5, comments: [], user: "scienceNerd", timeAgo: "1 day ago" },
-  { id: 4, title: "My Cat Being Derpy", imageUrl: "https://picsum.photos/id/103/800/600", category: POST_CATEGORIES.PICS, upvotes: 300, downvotes: 3, comments: [], user: "catLoverX", timeAgo: "5 hours ago" },
-  { id: 5, title: "A Haiku for Spring", content: "Green shoots emerge now...", category: POST_CATEGORIES.MOMENTS, upvotes: 90, downvotes: 2, comments: [], user: "poet99", timeAgo: "6 hours ago" },
-  { id: 6, title: "Thoughts on AI Ethics in 2024", content: "As AI becomes more advanced...", category: POST_CATEGORIES.THOUGHTS, upvotes: 220, downvotes: 12, comments: [], user: "ethicsGuru", timeAgo: "8 hours ago" },
-  { id: 7, title: "Beautiful Sunset Today", imageUrl: "https://picsum.photos/id/200/800/600", category: POST_CATEGORIES.PICS, upvotes: 175, downvotes: 7, comments: [], user: "skywatcher", timeAgo: "1 hour ago" },
-  { id: 8, title: "Just hit a new PR at the gym!", content: "Feeling strong and accomplished...", category: POST_CATEGORIES.MOMENTS, upvotes: 120, downvotes: 1, comments: [], user: "fitLife", timeAgo: "30 minutes ago" },
-  { id: 9, title: "Is free will an illusion?", content: "Philosophical musings on determinism...", category: POST_CATEGORIES.THOUGHTS, upvotes: 150, downvotes: 20, comments: [], user: "deepThinker", timeAgo: "10 hours ago" },
-  { id: 10, title: "Abandoned Places Photography", imageUrl: "https://picsum.photos/id/301/800/600", category: POST_CATEGORIES.PICS, upvotes: 250, downvotes: 6, comments: [], user: "urbanExplorer", timeAgo: "2 days ago" }
+  // --- Case 1: 0 Pictures ---
+  {
+    id: 'post-0pic-title-text-0com',
+    title: "Deep Thoughts on a Rainy Afternoon",
+    content: "The gentle patter of rain against the windowpane often leads to introspection. What are your favorite rainy day thoughts?",
+    imageSrcList: [],
+    user: "thinkerPro",
+    timeAgo: "10 minutes ago",
+    upvotes: 15,
+    downvotes: 0,
+    comments: [],
+    category: POST_CATEGORIES.THOUGHTS
+  },
+  {
+    id: 'post-0pic-noTitle-text-1com',
+    // title: null, // No title
+    content: "Just a quick update: feeling productive today! Managed to clear out a lot of pending tasks. What small wins did you have?",
+    imageSrcList: [],
+    user: "productivePerson",
+    timeAgo: "30 minutes ago",
+    upvotes: 22,
+    downvotes: 1,
+    comments: [
+      { id: 'c1-1', author: 'taskMaster', text: 'Great job! Keep it up!', upvotes: 3, downvotes: 0 },
+    ],
+    category: POST_CATEGORIES.MOMENTS
+  },
+  {
+    id: 'post-0pic-title-noText-2com',
+    title: "A Moment of Silence",
+    // content: null, // No text content
+    imageSrcList: [],
+    user: "zenMaster",
+    timeAgo: "1 hour ago",
+    upvotes: 8,
+    downvotes: 0,
+    comments: [
+      { id: 'c1-2', author: 'peaceSeeker', text: 'Needed this.', upvotes: 2, downvotes: 0 },
+      { id: 'c1-3', author: 'quietObserver', text: '...', upvotes: 1, downvotes: 0 },
+    ],
+    category: POST_CATEGORIES.GENERAL
+  },
+  {
+    id: 'post-0pic-noTitle-noText-0com', // Edge case: No title, no text, no image
+    // title: null,
+    // content: null,
+    imageSrcList: [],
+    user: "minimalist",
+    timeAgo: "4 hours ago",
+    upvotes: 3,
+    downvotes: 1,
+    comments: [],
+    category: POST_CATEGORIES.GENERAL
+  },
+
+  // --- Case 2: 1 Picture ---
+  {
+    id: 'post-1pic-title-text-0com',
+    title: "My New Desk Setup",
+    content: "Finally organized my workspace for better productivity and a cleaner look. What do you think?",
+    imageSrcList: ["https://placehold.co/800x500?text=Desk+Setup"],
+    user: "setupGuru",
+    timeAgo: "2 hours ago",
+    upvotes: 45,
+    downvotes: 2,
+    comments: [],
+    category: POST_CATEGORIES.PICS
+  },
+  {
+    id: 'post-1pic-noTitle-text-1com',
+    // title: null,
+    content: "Captured this beautiful an hour ago. Nature's art is the best.",
+    imageSrcList: ["https://placehold.co/700x700?text=Sunset+View"],
+    user: "skyWatcher",
+    timeAgo: "3 hours ago",
+    upvotes: 60,
+    downvotes: 1,
+    comments: [
+      { id: 'c2-1', author: 'natureLover', text: 'Stunning!', upvotes: 5, downvotes: 0 },
+    ],
+    category: POST_CATEGORIES.PICS
+  },
+  {
+    id: 'post-1pic-title-noText-2com',
+    title: "Abstract Art Piece",
+    // content: null,
+    imageSrcList: ["https://placehold.co/600x800?text=Abstract+Art"],
+    user: "artCollector",
+    timeAgo: "5 hours ago",
+    upvotes: 33,
+    downvotes: 3,
+    comments: [
+      { id: 'c2-2', author: 'galleryFan', text: 'Intriguing!', upvotes: 4, downvotes: 0 },
+      { id: 'c2-3', author: 'criticX', text: 'Makes you think.', upvotes: 2, downvotes: 1 },
+    ],
+    category: POST_CATEGORIES.PICS
+  },
+
+  // --- Case 3: 2 Pictures ---
+  {
+    id: 'post-2pic-title-text-0com',
+    title: "Before & After: Garden Makeover",
+    content: "Spent the weekend transforming the garden. So happy with the results!",
+    imageSrcList: [
+      "https://placehold.co/600x450?text=Garden+Before",
+      "https://placehold.co/600x450?text=Garden+After"
+    ],
+    user: "greenThumb",
+    timeAgo: "6 hours ago",
+    upvotes: 75,
+    downvotes: 1,
+    comments: [],
+    category: POST_CATEGORIES.MOMENTS
+  },
+  {
+    id: 'post-2pic-noTitle-text-1com',
+    // title: null,
+    content: "My two furry companions enjoying a nap together. They are inseparable!",
+    imageSrcList: [
+        "https://placehold.co/500x500?text=Pet+1",
+        "https://placehold.co/500x500?text=Pet+2"
+    ],
+    user: "petParent",
+    timeAgo: "1 day ago",
+    upvotes: 90,
+    downvotes: 0,
+    comments: [
+      { id: 'c3-1', author: 'animalFriend', text: 'So adorable!', upvotes: 10, downvotes: 0 },
+    ],
+    category: POST_CATEGORIES.PICS
+  },
+
+  // --- Case 4: 3 Pictures ---
+  {
+    id: 'post-3pic-title-text-2com',
+    title: "Weekend Culinary Adventures",
+    content: "Tried out a few new recipes this weekend. A delicious pasta, a vibrant salad, and a decadent dessert!",
+    imageSrcList: [
+      "https://placehold.co/600x400?text=Pasta+Dish",
+      "https://placehold.co/600x400?text=Salad+Bowl",
+      "https://placehold.co/600x400?text=Dessert+Plate"
+    ],
+    user: "foodieExtraordinaire",
+    timeAgo: "8 hours ago",
+    upvotes: 110,
+    downvotes: 4,
+    comments: [
+      { id: 'c4-1', author: 'chefWannabe', text: 'Looks amazing! Recipes?', upvotes: 7, downvotes: 0 },
+      { id: 'c4-2', author: 'hungryGal', text: 'I want that dessert!', upvotes: 5, downvotes: 0 },
+    ],
+    category: POST_CATEGORIES.PICS
+  },
+  {
+    id: 'post-3pic-title-noText-0com',
+    title: "Cityscape Views",
+    // content: null,
+    imageSrcList: [
+        "https://placehold.co/700x500?text=City+Day",
+        "https://placehold.co/700x500?text=City+Night",
+        "https://placehold.co/700x500?text=Rooftop+View"
+    ],
+    user: "urbanExplorer",
+    timeAgo: "10 hours ago",
+    upvotes: 65,
+    downvotes: 2,
+    comments: [],
+    category: POST_CATEGORIES.PICS
+  },
+
+  // --- Case 5: 4 Pictures ---
+  {
+    id: 'post-4pic-title-text-1com',
+    title: "Hiking Trip Highlights",
+    content: "An amazing 4-day hike through the mountains. Challenging but worth every step for these views.",
+    imageSrcList: [
+      "https://placehold.co/800x600?text=Mountain+Peak",
+      "https://placehold.co/600x800?text=Forest+Trail",
+      "https://placehold.co/700x500?text=Waterfall",
+      "https://placehold.co/600x600?text=Campsite"
+    ],
+    user: "adventurerMax",
+    timeAgo: "12 hours ago",
+    upvotes: 150,
+    downvotes: 3,
+    comments: [
+      { id: 'c5-1', author: 'trailBlazer', text: 'Epic journey!', upvotes: 12, downvotes: 0 },
+    ],
+    category: POST_CATEGORIES.PICS
+  },
+
+  // --- Case 6: 5 Pictures ---
+  {
+    id: 'post-5pic-noTitle-text-2com',
+    // title: null,
+    content: "A collection of my favorite street art finds from around the city. So much talent out there!",
+    imageSrcList: [
+      "https://placehold.co/600x400?text=Graffiti+1",
+      "https://placehold.co/500x700?text=Mural+Art",
+      "https://placehold.co/700x500?text=Stencil+Work",
+      "https://placehold.co/400x600?text=Sticker+Art",
+      "https://placehold.co/600x500?text=Urban+Canvas"
+    ],
+    user: "streetArtFan",
+    timeAgo: "15 hours ago",
+    upvotes: 88,
+    downvotes: 5,
+    comments: [
+      { id: 'c6-1', author: 'artLover', text: 'Love these!', upvotes: 6, downvotes: 0 },
+      { id: 'c6-2', author: 'cityScout', text: 'Great finds, keep sharing!', upvotes: 4, downvotes: 0 },
+    ],
+    category: POST_CATEGORIES.PICS
+  },
+  // Add more permutations if needed, e.g., more comments with different image counts etc.
 ];
 
 const MOCK_ANNOUNCEMENTS = [
