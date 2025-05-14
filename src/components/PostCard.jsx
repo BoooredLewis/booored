@@ -1,6 +1,7 @@
 import React from 'react';
-import { FiShare, FiChevronUp, FiArrowUp, FiArrowDown, FiMessageCircle } from 'react-icons/fi';
-import CommentSection from './CommentSection'; // We'll create this next
+import { FiShare, FiChevronUp, FiMessageCircle } from 'react-icons/fi';
+import CommentSection from './CommentSection';
+import VoteButtons from './VoteButtons'; // Import the new component
 
 const PostCard = ({
   post,
@@ -10,10 +11,10 @@ const PostCard = ({
   isCollapsed,
   onToggleCollapsePost,
 }) => {
-  // Dummy handlers for now, these would ideally update state in App.jsx
   const handleShare = () => console.log('Share post ID:', post.id);
-  const handleUpvote = () => console.log('Upvoted post ID:', post.id);
-  const handleDownvote = () => console.log('Downvoted post ID:', post.id);
+  // Dummy handlers for now, these would ideally update state in App.jsx
+  const handleUpvotePost = () => console.log('Upvoted post ID:', post.id);
+  const handleDownvotePost = () => console.log('Downvoted post ID:', post.id);
 
   return (
     <div
@@ -65,30 +66,22 @@ const PostCard = ({
           )}
 
           <div className="flex items-center text-xs text-gray-500 dark:text-gray-400 mb-4">
-            <span className="inline-block w-5 h-5 rounded-full bg-blue-500 mr-2"></span> {/* Placeholder avatar */}
+            <span className="inline-block w-5 h-5 rounded-full bg-blue-500 mr-2"></span>
             <span className="font-medium text-gray-700 dark:text-gray-300">@{post.user}</span>
             <span className="ml-2">{post.timeAgo}</span>
           </div>
 
           <div className="flex items-center justify-between pt-2">
-            <div className="flex items-center space-x-4">
-              <button
-                onClick={handleUpvote}
-                className="flex items-center space-x-1 text-green-500 hover:text-green-600 transition-colors"
-                aria-label={`Upvote post, current upvotes ${post.upvotes}`}
-              >
-                <FiArrowUp className="w-4 h-4" />
-                <span className="text-xs font-medium">{post.upvotes}</span>
-              </button>
-              <button
-                onClick={handleDownvote}
-                className="flex items-center space-x-1 text-red-500 hover:text-red-600 transition-colors"
-                aria-label={`Downvote post, current downvotes ${post.downvotes}`}
-              >
-                <FiArrowDown className="w-4 h-4" />
-                <span className="text-xs font-medium">{post.downvotes}</span>
-              </button>
-            </div>
+            <VoteButtons
+              upvotes={post.upvotes}
+              downvotes={post.downvotes}
+              onUpvote={handleUpvotePost}
+              onDownvote={handleDownvotePost}
+              darkMode={darkMode}
+              size="default" // 'default' size for posts
+              itemId={post.id}
+              itemType="post"
+            />
 
             <button
               onClick={() => onToggleComments(post.id)}
@@ -102,11 +95,9 @@ const PostCard = ({
 
           {isCommentsExpanded && (
             <CommentSection
-                postId={post.id}
-                comments={post.comments}
-                darkMode={darkMode}
-                // onPostComment will be passed from App.jsx through PostList -> PostCard eventually
-                // For now, it can be a dummy function within CommentSection or handled there
+              postId={post.id}
+              comments={post.comments}
+              darkMode={darkMode}
             />
           )}
         </div>

@@ -1,53 +1,41 @@
 import React from 'react';
-import { FiArrowUp, FiArrowDown } from 'react-icons/fi';
+import VoteButtons from './VoteButtons'; // Import the new component
 
-// Individual Comment Component (can be in its own file if it grows)
+// Individual Comment Component
 const Comment = ({ comment, darkMode }) => {
+    // Dummy handlers for now
     const handleUpvoteComment = () => console.log('Upvoted comment ID:', comment.id);
     const handleDownvoteComment = () => console.log('Downvoted comment ID:', comment.id);
 
     return (
-        <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} relative overflow-hidden`}>
-            <div className="flex items-start">
-                <div className="flex-1">
+        <div className={`p-3 rounded-lg ${darkMode ? 'bg-gray-700' : 'bg-gray-100'} relative`}> {/* Removed overflow-hidden to ensure hover bg is visible */}
+            <div className="flex items-start justify-between"> {/* Use justify-between */}
+                <div className="flex-1 mr-2"> {/* Added mr-2 for spacing */}
                     <span className={`font-medium mr-2 ${darkMode ? 'text-gray-200' : 'text-gray-800'}`}>@{comment.author}</span>
                     <p className={`text-sm ${darkMode ? 'text-gray-300' : 'text-gray-700'}`}>{comment.text}</p>
                 </div>
-                <div className="flex items-center space-x-1 ml-2">
-                    <button
-                        onClick={handleUpvoteComment}
-                        className={`p-1 rounded-md ${darkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'} transition-colors`}
-                        aria-label={`Upvote comment, current upvotes ${comment.upvotes}`}
-                    >
-                        <FiArrowUp className="w-3 h-3 text-green-500" />
-                    </button>
-                    <span className="text-xs">{comment.upvotes}</span>
-                    <button
-                        onClick={handleDownvoteComment}
-                        className={`p-1 rounded-md ${darkMode ? 'hover:bg-gray-600' : 'hover:bg-gray-200'} transition-colors`}
-                        aria-label={`Downvote comment`}
-                    >
-                        <FiArrowDown className="w-3 h-3 text-red-500" />
-                    </button>
-                </div>
+                <VoteButtons
+                    upvotes={comment.upvotes}
+                    downvotes={comment.downvotes} // Assuming comments can be downvoted, if not, remove downvote logic
+                    onUpvote={handleUpvoteComment}
+                    onDownvote={handleDownvoteComment}
+                    darkMode={darkMode}
+                    size="small" // 'small' size for comments
+                    itemId={comment.id}
+                    itemType="comment"
+                />
             </div>
         </div>
     );
 };
 
-
-const CommentSection = ({ postId, comments, darkMode /* onPostComment */ }) => {
-  // const [newCommentText, setNewCommentText] = useState('');
-  // const [commenterId, setCommenterId] = useState('');
-
+const CommentSection = ({ postId, comments, darkMode }) => {
   const handlePostNewComment = (e) => {
     e.preventDefault();
-    // Basic new comment logic - would call a prop function from App.jsx
     const commenterId = e.target.commenterId.value;
     const newCommentText = e.target.newCommentText.value;
     if (!newCommentText.trim()) return;
-    console.log(`Post new comment for post ${postId}: ID: ${commenterId}, Text: ${newCommentText}`);
-    // onPostComment(postId, { author: commenterId || 'anon', text: newCommentText });
+    console.log(`Post new comment for post ${postId}: ID: ${commenterId || 'anon'}, Text: ${newCommentText}`);
     e.target.reset();
   };
 
@@ -65,7 +53,6 @@ const CommentSection = ({ postId, comments, darkMode /* onPostComment */ }) => {
         </p>
       )}
 
-      {/* New Comment Form */}
       <form onSubmit={handlePostNewComment} className="mt-3 space-y-2">
         <input
           type="text"

@@ -5,10 +5,10 @@ import Header from './components/Header';
 import MobileNav from './components/MobileNav';
 import SubNavigationB4 from './components/SubNavigationB4';
 import PostList from './components/PostList';
-import RulesSidebar from './components/RulesSidebar';
 import Footer from './components/Footer';
 import SubmitModal from './components/SubmitModal';
 import Pagination from './components/Pagination';
+import SidebarContent from './components/SidebarContent'
 
 // --- CONSTANTS --- (These could be moved to a separate constants.js file)
 export const TAB_IDS = { B1: 'b1', B2: 'b2', B3: 'b3', B4: 'b4' };
@@ -40,6 +40,18 @@ const MOCK_INITIAL_POSTS = [
   { id: 8, title: "Just hit a new PR at the gym!", content: "Feeling strong and accomplished...", category: POST_CATEGORIES.MOMENTS, upvotes: 120, downvotes: 1, comments: [], user: "fitLife", timeAgo: "30 minutes ago" },
   { id: 9, title: "Is free will an illusion?", content: "Philosophical musings on determinism...", category: POST_CATEGORIES.THOUGHTS, upvotes: 150, downvotes: 20, comments: [], user: "deepThinker", timeAgo: "10 hours ago" },
   { id: 10, title: "Abandoned Places Photography", imageUrl: "https://picsum.photos/id/301/800/600", category: POST_CATEGORIES.PICS, upvotes: 250, downvotes: 6, comments: [], user: "urbanExplorer", timeAgo: "2 days ago" }
+];
+
+const MOCK_ANNOUNCEMENTS = [
+  { text: "New 'Bored Art' contest starting next week! Details soon." },
+  { text: "Server maintenance scheduled for Sunday 2 AM - 3 AM UTC." },
+];
+
+const MOCK_RULES = [
+  { text: 'Be respectful to others in all interactions.' },
+  { text: 'No spam, excessive self-promotion, or irrelevant links.' },
+  { text: 'Keep discussions and content appropriate for a general audience.' },
+  { text: 'Report any content or behavior that violates these rules.' },
 ];
 
 const App = () => {
@@ -134,6 +146,7 @@ const App = () => {
 
   // Determine what fields the submit modal should show
   const submitModalType = getActiveTabConfig().category === POST_CATEGORIES.THOUGHTS || activeTab === TAB_IDS.B3 ? 'content' : 'image';
+  const sidebarCards = <SidebarContent darkMode={darkMode} announcements={MOCK_ANNOUNCEMENTS} rules={MOCK_RULES} />;
 
   return (
     <div className={bodyClasses}>
@@ -178,7 +191,9 @@ const App = () => {
                     Submit
                   </button>
                 </div>
-
+                <div className="lg:hidden mb-6">
+                  {sidebarCards}
+                </div>
                 <PostList
                   isLoading={isLoading}
                   postsToDisplay={postsToDisplay}
@@ -201,9 +216,8 @@ const App = () => {
                 )}
               </div>
             </div>
-
-            <div className="lg:w-1/4 lg:sticky lg:top-24 h-fit">
-              <RulesSidebar darkMode={darkMode} />
+            <div className="hidden lg:block lg:w-1/4 lg:sticky lg:top-24 h-fit">
+              {sidebarCards}
             </div>
           </div>
         </div>
